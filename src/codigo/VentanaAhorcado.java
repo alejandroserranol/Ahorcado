@@ -6,6 +6,7 @@
 package codigo;
 
 import java.awt.Image;
+import java.util.Random;
 import static javafx.scene.input.KeyCode.J;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +20,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     // Esta variable guarda cuántos fallos llevo en el juego
     int numeroFallos = 0;
 
-    String palabraOculta = "CETYS";
+    String palabraOculta = eligePalabra();
 
     /**
      * Creates new form VentanaAhorcado
@@ -27,12 +28,26 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     public VentanaAhorcado() {
         initComponents();
         dibujaImagen();
+        //inicializo el jLabel en el que se muestran los guiones bajos
+        String auxiliar = "";
+        for (int i=0; i < palabraOculta.length(); i++){
+            auxiliar += "_ ";
+        }
+        jLabel1.setText(auxiliar);
+    }
+    
+    //eligePalabra va a seleccionar una palabra al azahar de un array de palabras
+    private String eligePalabra(){
+        String [] listaPalabras = {"HOLA", "VLADIKAKA", "CETYS", "BORREGUITO", "BABYYODA", "MANDO"};
+        Random aleatorio = new Random(); //Variable aleatoria va a elegir una palabra al azahar
+        int posicion = aleatorio.nextInt(listaPalabras.length);
+        return listaPalabras[posicion].toUpperCase();
     }
 
     //Este método recibe el botón que ha sido pulsado
     //y procesa la letra que tiene en la etiqueta
     private void chequeaBoton(JButton boton) {
-        boton.setEnabled(false);
+        boton.setEnabled(false);        
         chequeaLetra(boton.getText());
     }
 
