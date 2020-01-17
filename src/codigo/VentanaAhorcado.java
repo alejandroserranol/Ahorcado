@@ -19,7 +19,7 @@ public class VentanaAhorcado extends javax.swing.JFrame {
 
     // Esta variable guarda cuántos fallos llevo en el juego
     int numeroFallos = 0;
-
+    boolean partidaTerminada = false; //indica si la partida ha terminado
     String palabraOculta = eligePalabra();
 
     /**
@@ -30,15 +30,15 @@ public class VentanaAhorcado extends javax.swing.JFrame {
         dibujaImagen();
         //inicializo el jLabel en el que se muestran los guiones bajos
         String auxiliar = "";
-        for (int i=0; i < palabraOculta.length(); i++){
+        for (int i = 0; i < palabraOculta.length(); i++) {
             auxiliar += "_ ";
         }
         jLabel1.setText(auxiliar);
     }
-    
+
     //eligePalabra va a seleccionar una palabra al azahar de un array de palabras
-    private String eligePalabra(){
-        String [] listaPalabras = {"HOLA", "VLADIKAKA", "CETYS", "BORREGUITO", "BABYYODA", "MANDO"};
+    private String eligePalabra() {
+        String[] listaPalabras = {"HOLA", "VLADIKAKA", "CETYS", "BORREGUITO", "BABYYODA", "MANDO"};
         Random aleatorio = new Random(); //Variable aleatoria va a elegir una palabra al azahar
         int posicion = aleatorio.nextInt(listaPalabras.length);
         return listaPalabras[posicion].toUpperCase();
@@ -47,8 +47,10 @@ public class VentanaAhorcado extends javax.swing.JFrame {
     //Este método recibe el botón que ha sido pulsado
     //y procesa la letra que tiene en la etiqueta
     private void chequeaBoton(JButton boton) {
-        boton.setEnabled(false);        
-        chequeaLetra(boton.getText());
+        if (!partidaTerminada) {
+            boton.setEnabled(false);
+            chequeaLetra(boton.getText());
+        }
     }
 
     private void chequeaLetra(String letra) {
@@ -72,12 +74,15 @@ public class VentanaAhorcado extends javax.swing.JFrame {
             if (!palabraConGuiones.contains("_")) {
                 numeroFallos = -1;
                 dibujaImagen();
+                partidaTerminada = true;
             }
         } else {
             numeroFallos++;
+            if(numeroFallos == 6){
+                partidaTerminada = true;
+            }
             dibujaImagen();
         }
-
     }
 
     // Cambia la imagen en función de cuántos fallos llevamos
